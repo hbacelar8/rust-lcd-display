@@ -16,26 +16,26 @@ use hal::{
 };
 use stm32f1xx_hal as hal;
 
-pub struct LCD {
-    rs: PA0<Output<PushPull>>,
-    en: PA1<Output<PushPull>>,
-    d4: PC0<Output<PushPull>>,
-    d5: PC1<Output<PushPull>>,
-    d6: PC2<Output<PushPull>>,
-    d7: PC3<Output<PushPull>>,
-    delay: Delay,
+pub struct LCD<'a> {
+    rs: &'a mut PA0<Output<PushPull>>,
+    en: &'a mut PA1<Output<PushPull>>,
+    d4: &'a mut PC0<Output<PushPull>>,
+    d5: &'a mut PC1<Output<PushPull>>,
+    d6: &'a mut PC2<Output<PushPull>>,
+    d7: &'a mut PC3<Output<PushPull>>,
+    delay: &'a mut Delay,
 }
 
-impl LCD {
+impl <'a>LCD<'a> {
     pub fn new(
-        rs: PA0<Output<PushPull>>,
-        en: PA1<Output<PushPull>>,
-        d4: PC0<Output<PushPull>>,
-        d5: PC1<Output<PushPull>>,
-        d6: PC2<Output<PushPull>>,
-        d7: PC3<Output<PushPull>>,
-        delay: Delay,
-    ) -> LCD {
+        rs: &'a mut PA0<Output<PushPull>>,
+        en: &'a mut PA1<Output<PushPull>>,
+        d4: &'a mut PC0<Output<PushPull>>,
+        d5: &'a mut PC1<Output<PushPull>>,
+        d6: &'a mut PC2<Output<PushPull>>,
+        d7: &'a mut PC3<Output<PushPull>>,
+        delay: &'a mut Delay,
+    ) -> LCD<'a> {
         LCD {
             rs,
             en,

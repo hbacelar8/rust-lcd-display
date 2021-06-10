@@ -29,17 +29,19 @@ fn main() -> ! {
     let clocks = rcc.cfgr.freeze(&mut flash.acr);
 
     // Get delay instance
-    let delay = Delay::new(cp.SYST, clocks);
+    let mut delay = Delay::new(cp.SYST, clocks);
 
     // Configure pin for LCD
-    let rs = gpioa.pa0.into_push_pull_output(&mut gpioa.crl);
-    let en = gpioa.pa1.into_push_pull_output(&mut gpioa.crl);
-    let d4 = gpioc.pc0.into_push_pull_output(&mut gpioc.crl);
-    let d5 = gpioc.pc1.into_push_pull_output(&mut gpioc.crl);
-    let d6 = gpioc.pc2.into_push_pull_output(&mut gpioc.crl);
-    let d7 = gpioc.pc3.into_push_pull_output(&mut gpioc.crl);
+    let mut rs = gpioa.pa0.into_push_pull_output(&mut gpioa.crl);
+    let mut en = gpioa.pa1.into_push_pull_output(&mut gpioa.crl);
+    let mut d4 = gpioc.pc0.into_push_pull_output(&mut gpioc.crl);
+    let mut d5 = gpioc.pc1.into_push_pull_output(&mut gpioc.crl);
+    let mut d6 = gpioc.pc2.into_push_pull_output(&mut gpioc.crl);
+    let mut d7 = gpioc.pc3.into_push_pull_output(&mut gpioc.crl);
 
-    let mut lcd = LCD::new(rs, en, d4, d5, d6, d7, delay);
+    let mut lcd = LCD::new(
+        &mut rs, &mut en, &mut d4, &mut d5, &mut d6, &mut d7, &mut delay,
+    );
     lcd.init();
 
     lcd.send_string("Hello World!");
